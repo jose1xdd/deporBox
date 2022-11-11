@@ -10,6 +10,8 @@ class Persona(db.Model, crud):
     email=db.Column(db.Text, nullable=False)
     password=db.Column(db.Text, nullable=False)
     tipo_usuario=db.Column(db.String(1), nullable=False)
+    tests = db.relationship('Test', backref='persona', lazy=True)
+    binario=db.relationship('binariosUsuarios', backref='persona', lazy=True ,uselist=False)
 
 class Test(db.Model, crud):
     id =db.Column(db.Integer(), primary_key=True, nullable=False)
@@ -23,7 +25,10 @@ class Test(db.Model, crud):
     repeticiones=db.Column(db.Integer, nullable=False)
     resistencia_fuerzaG=db.Column(db.Integer, nullable=False)
     peso=db.Column(db.Integer, nullable=False)
+    persona_id=db.Column(db.String(30), db.ForeignKey('persona.id'), nullable=False)
 
 class binariosUsuarios(db.Model, crud):
-    foto_perfil=db.Column(db.LargeBinary, nullable=False)
-    foto_documento=db.Column(db.LargeBinary, nullable=False)
+    id = db.Column(db.Integer(), primary_key=True, nullable=False)
+    foto_perfil=db.Column(db.LargeBinary, nullable=True)
+    foto_documento=db.Column(db.LargeBinary, nullable=True)
+    persona_id=db.Column(db.String(30), db.ForeignKey('persona.id'), nullable=False,unique=True)

@@ -20,12 +20,12 @@ def crear():
             resistencia_vueltas= data.get('resistencia_vueltas'),
             repeticiones= data.get('repeticiones'),
             resistencia_fuerzaG= data.get('resistencia_fuerzaG'),
-            peso= data.get('peso')
+            peso= data.get('peso'),
+            persona_id=data.get('persona_id')
         )
         recipe.save()
         test_schema = testSchema()
         data = test_schema.dump(recipe)
-        print(data)
         return jsonify(data)
     except Exception as ex:
         return jsonify({'mesage': str(ex)}), 500
@@ -36,7 +36,6 @@ def consultar_id(id):
         recipe = Test.get_by_id(id)
         test_schema = testSchema()
         data = test_schema.dump(recipe)
-        print(data)
         return jsonify(data)
     except Exception as ex:
         return jsonify({'mesage': str(ex)}), 500
@@ -46,10 +45,8 @@ def consultar_id(id):
 def consultar_all():
     try:
         recipe = Test.get_all()
-        print(recipe)
         test_schema = testSchema(many=True)
         data = test_schema.dump(recipe)
-        print(data)
         return jsonify(data)
     except Exception as ex:
         return jsonify({'mesage': str(ex)}), 500
@@ -74,9 +71,9 @@ def update(id):
             recipe.repeticiones=data.get('repeticiones')
             recipe.resistencia_fuerzaG=data.get('resistencia_fuerzaG')
             recipe.peso=data.get('peso')
+            recipe.persona_id=data.get('persona_id')
             Test.save(recipe)
             data = test_schema.dump(recipe)
-            print(data)
             return jsonify(data)
     except Exception as ex:
         return jsonify({'mesage': str(ex)}), 500
@@ -91,7 +88,6 @@ def delete_id(id):
             Test.delete(recipe)
             test_schema = testSchema()
             data = test_schema.dump(recipe)
-            print(data)
             return jsonify(data)
     except Exception as ex:
         return jsonify({'mesage': str(ex)}), 500

@@ -11,6 +11,8 @@ class personaSchema(ma.Schema):
     email=fields.String()
     password=fields.String()
     tipo_usuario=fields.String()
+    tests = fields.Nested('testSchema',many=True)
+    binario = fields.Nested('binariosUsuarioSchema',many=False)
 
 class testSchema(ma.Schema):
     id = fields.Integer(dump_only=True)
@@ -24,7 +26,10 @@ class testSchema(ma.Schema):
     repeticiones= fields.Integer()
     resistencia_fuerzaG= fields.Integer()
     peso= fields.Integer()
+    persona_id=fields.String()
 
 class binariosUsuarioSchema(ma.Schema):
+    id =fields.Raw()
     foto_perfil=fields.Raw()
     foto_documento=fields.Raw()
+    persona_id=fields.String()

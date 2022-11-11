@@ -23,18 +23,16 @@ def crear():
         recipe.save()
         persona_schema = personaSchema()
         data = persona_schema.dump(recipe)
-        print(data)
         return jsonify(data)
     except Exception as ex:
         return jsonify({'mesage': str(ex)}), 500
 
-@persona_bp.route('/persona/<int:id>', methods=['GET'])
+@persona_bp.route('/persona/<string:id>', methods=['GET'])
 def consultar_id(id):
     try:
         recipe = Persona.get_by_id(id)
         persona_schema = personaSchema()
         data = persona_schema.dump(recipe)
-        print(data)
         return jsonify(data)
     except Exception as ex:
         return jsonify({'mesage': str(ex)}), 500
@@ -44,15 +42,13 @@ def consultar_id(id):
 def consultar_all():
     try:
         recipe = Persona.get_all()
-        print(recipe)
         persona_schema = personaSchema(many=True)
         data = persona_schema.dump(recipe)
-        print(data)
         return jsonify(data)
     except Exception as ex:
         return jsonify({'mesage': str(ex)}), 500
 
-@persona_bp.route('/persona/<int:id>', methods=['PUT'])
+@persona_bp.route('/persona/<string:id>', methods=['PUT'])
 def update(id):
     try:
         recipe = Persona.get_by_id(id)
@@ -72,12 +68,11 @@ def update(id):
             recipe.tipo_usuario = data.get('tipo_usuario')
             Persona.save(recipe)
             data = persona_schema.dump(recipe)
-            print(data)
             return jsonify(data)
     except Exception as ex:
         return jsonify({'mesage': str(ex)}), 500
 
-@persona_bp.route('/persona/<int:id>', methods=['DELETE'])
+@persona_bp.route('/persona/<string:id>', methods=['DELETE'])
 def delete_id(id):
     try:
         recipe = Persona.get_by_id(id)
@@ -87,7 +82,6 @@ def delete_id(id):
             Persona.delete(recipe)
             persona_schema = personaSchema()
             data = persona_schema.dump(recipe)
-            print(data)
             return jsonify(data)
     except Exception as ex:
         return jsonify({'mesage': str(ex)}), 500        

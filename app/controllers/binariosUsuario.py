@@ -11,12 +11,12 @@ def crear():
         data = request.json
         recipe = binariosUsuarios(
             foto_perfil=data.get('foto_perfil'),
-            foto_documento=data.get('foto_documento')
+            foto_documento=data.get('foto_documento'),
+            persona_id=data.get('persona_id')
         )
         recipe.save()
         binariosUsuario_schema = binariosUsuarioSchema()
         data = binariosUsuario_schema.dump(recipe)
-        print(data)
         return jsonify(data)
     except Exception as ex:
         return jsonify({'mesage': str(ex)}), 500
@@ -27,7 +27,6 @@ def consultar_id(id):
         recipe = binariosUsuarios.get_by_id(id)
         binariosUsuario_schema = binariosUsuarioSchema()
         data = binariosUsuario_schema.dump(recipe)
-        print(data)
         return jsonify(data)
     except Exception as ex:
         return jsonify({'mesage': str(ex)}), 500
@@ -37,10 +36,8 @@ def consultar_id(id):
 def consultar_all():
     try:
         recipe = binariosUsuarios.get_all()
-        print(recipe)
         binariosUsuario_schema = binariosUsuarioSchema(many=True)
         data = binariosUsuario_schema.dump(recipe)
-        print(data)
         return jsonify(data)
     except Exception as ex:
         return jsonify({'mesage': str(ex)}), 500
@@ -56,9 +53,9 @@ def update(id):
             binariosUsuario_schema = binariosUsuarioSchema()
             recipe.foto_perfil=data.get('foto_perfil')
             recipe.foto_documento=data.get('foto_documento')
+            recipe.persona_id=data.get('persona_id')
             binariosUsuarios.save(recipe)
             data = binariosUsuario_schema.dump(recipe)
-            print(data)
             return jsonify(data)
     except Exception as ex:
         return jsonify({'mesage': str(ex)}), 500
@@ -73,7 +70,6 @@ def delete_id(id):
             binariosUsuarios.delete(recipe)
             binariosUsuario_schema = binariosUsuarioSchema()
             data = binariosUsuario_schema.dump(recipe)
-            print(data)
             return jsonify(data)
     except Exception as ex:
         return jsonify({'mesage': str(ex)}), 500        
