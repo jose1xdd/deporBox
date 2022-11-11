@@ -1,6 +1,8 @@
 from flask import Flask, jsonify
 from app.db import db
-from app.controllers.prueba import prueba_bp
+from app.controllers.persona import persona_bp
+from app.controllers.Test import test_bp
+from app.controllers.binariosUsuario import binariosUsuario_bp
 from app.common.error_handling import ObjectNotFound, AppErrorBaseClass
 from flask_migrate import Migrate
 
@@ -10,7 +12,9 @@ def create_app(settings="config.default"):
     app.config.from_object((settings))
     db.init_app(app)
     app.url_map.strict_slashes = False
-    app.register_blueprint(prueba_bp)
+    app.register_blueprint(persona_bp)
+    app.register_blueprint(test_bp)
+    app.register_blueprint(binariosUsuario_bp)
     register_error_handlers(app)
     migrate = Migrate(app, db)
     return app
