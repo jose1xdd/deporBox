@@ -2,7 +2,6 @@ from flask import request, Blueprint, jsonify
 from flask_jwt_extended import jwt_required
 from app.models.modelos import Persona
 from app.schemas.esquemas import personaSchema
-
 persona_bp = Blueprint('persona_bp', __name__)
 
 @persona_bp.route('/persona', methods=['POST'])
@@ -16,9 +15,6 @@ def crear():
             fecha_nacimiento = data.get('fecha_nacimiento'),
             sexo = data.get('sexo'),
             direccion = data.get('direccion'),
-            email = data.get('email'),
-            password = data.get('password'),
-            tipo_usuario = data.get('tipo_usuario')
         )
         recipe.save()
         persona_schema = personaSchema()
