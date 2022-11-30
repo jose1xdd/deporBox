@@ -1,0 +1,9 @@
+Flask
+marshmallow
+SQLAlchemy
+pymysql
+flask-marshmallow
+Flask-Migrate
+Flask-Filter
+Flask-JWT-Extended
+marshmallow-sqlalchemy

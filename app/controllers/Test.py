@@ -6,6 +6,7 @@ from app.schemas.esquemas import testSchema
 test_bp = Blueprint('test_bp', __name__)
 
 @test_bp.route('/test', methods=['POST'])
+@jwt_required()
 def crear():
     try:
         data = request.json
@@ -31,6 +32,7 @@ def crear():
         return jsonify({'mesage': str(ex)}), 500
 
 @test_bp.route('/test/<int:id>', methods=['GET'])
+@jwt_required()
 def consultar_id(id):
     try:
         recipe = Test.get_by_id(id)
@@ -42,6 +44,7 @@ def consultar_id(id):
 
 
 @test_bp.route('/test', methods=['GET'])
+@jwt_required()
 def consultar_all():
     try:
         recipe = Test.get_all()
@@ -52,33 +55,32 @@ def consultar_all():
         return jsonify({'mesage': str(ex)}), 500
 
 @test_bp.route('/test/<int:id>', methods=['PUT'])
+@jwt_required()
 def update(id):
     try:
-        recipe = Test.get_by_id(id)
-        if recipe == None:
-            return "El dato a editar no existe"
-        else:
-            data = request.json
-            test_schema = testSchema()
-            recipe.id =data.get('id')
-            recipe.trimestre=data.get('trimestre')
-            recipe.fuerza_general=data.get('fuerza_general')
-            recipe.brazos=data.get('brazos')
-            recipe.piernas=data.get('piernas')
-            recipe.abdomen=data.get('abdomen')
-            recipe.resistencia_fuerza=data.get('resistencia_fuerza')
-            recipe.resistencia_vueltas=data.get('resistencia_vueltas')
-            recipe.repeticiones=data.get('repeticiones')
-            recipe.resistencia_fuerzaG=data.get('resistencia_fuerzaG')
-            recipe.peso=data.get('peso')
-            recipe.persona_id=data.get('persona_id')
-            Test.save(recipe)
-            data = test_schema.dump(recipe)
-            return jsonify(data)
+        recipe = Test.get_by_id(id)       
+        data = request.json
+        test_schema = testSchema()
+        recipe.id =data.get('id')
+        recipe.trimestre=data.get('trimestre')
+        recipe.fuerza_general=data.get('fuerza_general')
+        recipe.brazos=data.get('brazos')
+        recipe.piernas=data.get('piernas')
+        recipe.abdomen=data.get('abdomen')
+        recipe.resistencia_fuerza=data.get('resistencia_fuerza')
+        recipe.resistencia_vueltas=data.get('resistencia_vueltas')
+        recipe.repeticiones=data.get('repeticiones')
+        recipe.resistencia_fuerzaG=data.get('resistencia_fuerzaG')
+        recipe.peso=data.get('peso')
+        recipe.persona_id=data.get('persona_id')
+        Test.save(recipe)
+        data = test_schema.dump(recipe)
+        return jsonify(data)
     except Exception as ex:
         return jsonify({'mesage': str(ex)}), 500
 
 @test_bp.route('/test/<int:id>', methods=['DELETE'])
+@jwt_required()
 def delete_id(id):
     try:
         recipe = Test.get_by_id(id)

@@ -1,11 +1,13 @@
+from datetime import timedelta
 import os
 from app import create_app
-
 settings_module = os.getenv("APP_SETTINGS_MODULE")
 if not settings_module:
     settings_module = os.environ.get("APP_SETTINGS_MODULE", "config.default")
 
 app = create_app(settings_module)
+
+
 
 @app.route("/pings", methods=["GET"])
 def ping():
