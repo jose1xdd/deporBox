@@ -1,23 +1,26 @@
 from flask import Flask, jsonify
 from app.db import db
+from app.jwt import jwt
 from app.controllers.persona import persona_bp
 from app.controllers.user import user_bp
 from app.controllers.binariosUsuario import binariosUsuario_bp
 from app.common.error_handling import ObjectNotFound, AppErrorBaseClass
 from flask_migrate import Migrate
-from flask_jwt_extended import JWTManager
+
 def create_app(settings="config.default"):
     app = Flask(__name__)
     app.config.from_object((settings))
     db.init_app(app)
+    jwt.init_app(app)
     app.url_map.strict_slashes = False
     app.register_blueprint(persona_bp)
     app.register_blueprint(binariosUsuario_bp)
     app.register_blueprint(user_bp)
     register_error_handlers(app)
     migrate = Migrate(app, db)
-    jwt = JWTManager(app)
+    
     return app
+
 
 
 def register_error_handlers(app):

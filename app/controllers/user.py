@@ -1,13 +1,14 @@
-
 from flask import request, Blueprint, jsonify
 from app.models.modelos import User
 from app.schemas.esquemas import userSchema
+from app.jwt import auth
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import (
     create_access_token,
     create_refresh_token,
     get_jwt_identity,
     jwt_required,
+    get_current_user
 )
 
 user_bp = Blueprint("user", __name__)
@@ -38,8 +39,8 @@ def login_user():
         data = request.get_json()
         user = User.query.filter_by(email=data.get("email")).first()
         if check_password_hash(user.password, data.get("password")):
-            access_token = create_access_token(user.password)
-            refresh_token = create_refresh_token(user.password)
+            access_token = create_access_token(user.email)
+            refresh_token = create_refresh_token(user.email)
             return jsonify(access_token=access_token, refresh_token=refresh_token)
         else:
             return jsonify({"mesage": "credenciales invalidas"}), 401
@@ -59,10 +60,14 @@ def refresh():
 @jwt_required()
 def getUsuarios():
     try:
-        recipe = User.get_all()
-        usuarioschema = userSchema(many=True)
-        data = usuarioschema.dump(recipe)
-        return jsonify(data)
+        user = get_current_user()
+        if auth(user):
+            recipe = User.get_all()
+            usuarioschema = userSchema(many=True)
+            data = usuarioschema.dump(recipe)
+            return jsonify(data)
+        else:
+            return jsonify({"message": "usuario no es admin"}),401
     except Exception as ex:
         return jsonify({"mesage": str(ex)}), 500
 
@@ -83,12 +88,15 @@ def getUsuario(id):
 @jwt_required()
 def delete(id):
     try:
-        recipe = User.get_by_id(id)
-        print(recipe)
-        User.delete(recipe)
-        usuarioschema = userSchema()
-        data = usuarioschema.dump(recipe)
-        return jsonify(data)
+        user = get_current_user()
+        if auth(user):
+            recipe = User.get_by_id(id)
+            User.delete(recipe)
+            usuarioschema = userSchema()
+            data = usuarioschema.dump(recipe)
+            return jsonify(data)
+        else:
+             return jsonify({"message": "usuario no es admin"}),401
     except Exception as ex:
         return jsonify({"mesage": str(ex)}), 500
 
@@ -97,15 +105,19 @@ def delete(id):
 @jwt_required()
 def update(id):
     try:
-        data = request.get_json()
-        recipe = User.get_by_id(id)
-        hashed_password = generate_password_hash(data["password"], method="sha256")
-        recipe.password = hashed_password
-        recipe.email = data.get("email")
-        recipe.admin = data.get("admin")
-        User.save(recipe)
-        usuarioschema = userSchema()
-        data = usuarioschema.dump(recipe)
-        return jsonify(data)
+        user = get_current_user()
+        if auth(user):
+            data = request.get_json()
+            recipe = User.get_by_id(id)
+            hashed_password = generate_password_hash(data["password"], method="sha256")
+            recipe.password = hashed_password
+            recipe.email = data.get("email")
+            recipe.admin = data.get("admin")
+            User.save(recipe)
+            usuarioschema = userSchema()
+            data = usuarioschema.dump(recipe)
+            return jsonify(data)
+        else:
+            return jsonify({"message": "usuario no es admin"}),401
     except Exception as ex:
         return jsonify({"mesage": str(ex)}), 500
