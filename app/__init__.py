@@ -6,7 +6,7 @@ from app.controllers.user import user_bp
 from app.controllers.binariosUsuario import binariosUsuario_bp
 from app.common.error_handling import ObjectNotFound, AppErrorBaseClass
 from flask_migrate import Migrate
-
+from flask_cors import CORS
 def create_app(settings="config.default"):
     app = Flask(__name__)
     app.config.from_object((settings))
@@ -18,7 +18,7 @@ def create_app(settings="config.default"):
     app.register_blueprint(user_bp)
     register_error_handlers(app)
     migrate = Migrate(app, db)
-    
+    cors = CORS(app)
     return app
 
 
