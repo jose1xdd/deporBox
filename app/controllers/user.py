@@ -76,16 +76,17 @@ def getUsuarios():
         return jsonify({"mesage": str(ex)}), 500
 
 
-@user_bp.route("/usuario/<string:id>", methods=["GET"])
+@user_bp.route("/usuario/<string:data>", methods=["GET"])
 @jwt_required()
-def getUsuario(id):
+def getUsuarioemail(data):
     try:
-        recipe = User.get_by_id(id)
+        recipe = User.query.filter_by(email=data).first()
         usuarioschema = userSchema()
         data = usuarioschema.dump(recipe)
         return jsonify(data)
     except Exception as ex:
         return jsonify({"mesage": str(ex)}), 500
+
 
 
 @user_bp.route("/usuario/<string:id>", methods=["DELETE"])
