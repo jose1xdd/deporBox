@@ -8,7 +8,7 @@ from flask_jwt_extended import (
     create_refresh_token,
     get_jwt_identity,
     jwt_required,
-    get_current_user
+    get_current_user,
 )
 
 user_bp = Blueprint("user", __name__)
@@ -20,10 +20,14 @@ def signup_user():
         data = request.get_json()
         hashed_password = generate_password_hash(data["password"], method="sha256")
         new_user = User(
-            id=data.get("id"),
             email=data.get("email"),
             password=hashed_password,
             admin=data.get("admin"),
+            type_doc=data.get("type_doc"),
+            nombre=data.get("nombre"),
+            fecha_nacimiento=data.get("fecha_nacimiento"),
+            sexo=data.get("sexo"),
+            direccion=data.get("direccion"),
         )
         new_user.save()
         userschema = userSchema()
@@ -67,7 +71,7 @@ def getUsuarios():
             data = usuarioschema.dump(recipe)
             return jsonify(data)
         else:
-            return jsonify({"message": "usuario no es admin"}),401
+            return jsonify({"message": "usuario no es admin"}), 401
     except Exception as ex:
         return jsonify({"mesage": str(ex)}), 500
 
@@ -96,7 +100,7 @@ def delete(id):
             data = usuarioschema.dump(recipe)
             return jsonify(data)
         else:
-             return jsonify({"message": "usuario no es admin"}),401
+            return jsonify({"message": "usuario no es admin"}), 401
     except Exception as ex:
         return jsonify({"mesage": str(ex)}), 500
 
@@ -113,11 +117,16 @@ def update(id):
             recipe.password = hashed_password
             recipe.email = data.get("email")
             recipe.admin = data.get("admin")
+            recipe.type_doc = data.get("type_doc")
+            recipe.nombre = data.get("nombre")
+            recipe.fecha_nacimiento = data.get("fecha_nacimiento")
+            recipe.sexo = data.get("sexo")
+            recipe.direccion = data.get("direccion")
             User.save(recipe)
             usuarioschema = userSchema()
             data = usuarioschema.dump(recipe)
             return jsonify(data)
         else:
-            return jsonify({"message": "usuario no es admin"}),401
+            return jsonify({"message": "usuario no es admin"}), 401
     except Exception as ex:
         return jsonify({"mesage": str(ex)}), 500

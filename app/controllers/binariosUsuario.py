@@ -17,7 +17,7 @@ def crear():
             recipe = binariosUsuarios(
                 foto_perfil=data.get("foto_perfil"),
                 foto_documento=data.get("foto_documento"),
-                persona_id=data.get("persona_id"),
+                user_id=data.get("user_id"),
             )
             recipe.save()
             binariosUsuario_schema = binariosUsuarioSchema()
@@ -68,7 +68,7 @@ def update(id):
         binariosUsuario_schema = binariosUsuarioSchema()
         recipe.foto_perfil = data.get("foto_perfil")
         recipe.foto_documento = data.get("foto_documento")
-        recipe.persona_id = data.get("persona_id")
+        recipe.user_id = data.get("user_id")
         binariosUsuarios.save(recipe)
         data = binariosUsuario_schema.dump(recipe)
         return jsonify(data)

@@ -16,7 +16,6 @@ def crear():
             data = request.json
             recipe = Persona(
                 type_doc=data.get("type_doc"),
-                id=data.get("id"),
                 nombre=data.get("nombre"),
                 fecha_nacimiento=data.get("fecha_nacimiento"),
                 sexo=data.get("sexo"),
@@ -71,7 +70,6 @@ def update(id):
             data = request.json
             persona_schema = personaSchema()
             recipe.type_doc = data.get("type_doc")
-            recipe.id = data.get("id")
             recipe.nombre = data.get("nombre")
             recipe.fecha_nacimiento = data.get("fecha_nacimiento")
             recipe.sexo = data.get("sexo")

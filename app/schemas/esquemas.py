@@ -2,23 +2,18 @@ from marshmallow import fields
 from app.ext import ma
 
 
-class personaSchema(ma.Schema):
+class userSchema(ma.Schema):
+    id = fields.Integer(dump_only=True)
+    email = fields.String()
+    password = fields.String()
+    admin = fields.Boolean()
     type_doc = fields.String()
-    id = fields.String(dump_only=True)
     nombre = fields.String()
     fecha_nacimiento = fields.Date()
     sexo = fields.String()
     direccion = fields.String()
     tests = fields.Nested("testSchema", many=True)
     binario = fields.Nested("binariosUsuarioSchema", many=False)
-
-
-class userSchema(ma.Schema):
-    id = fields.String(dump_only=True)
-    email = fields.String()
-    password = fields.String()
-    admin = fields.Boolean()
-    persona = fields.Nested("personaSchema", many=False)
 
 
 class testSchema(ma.Schema):
@@ -33,11 +28,11 @@ class testSchema(ma.Schema):
     repeticiones = fields.Integer()
     resistencia_fuerzaG = fields.Integer()
     peso = fields.Integer()
-    persona_id = fields.String()
+    user_id = fields.Integer()
 
 
 class binariosUsuarioSchema(ma.Schema):
     id = fields.Raw()
     foto_perfil = fields.Raw()
     foto_documento = fields.Raw()
-    persona_id = fields.String()
+    user_id = fields.Integer()

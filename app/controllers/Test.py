@@ -13,9 +13,9 @@ def crear():
     try:
         user = get_current_user()
         if auth(user):
+            print("asdasd")
             data = request.json
             recipe = Test(
-                id=data.get("id"),
                 trimestre=data.get("trimestre"),
                 fuerza_general=data.get("fuerza_general"),
                 brazos=data.get("brazos"),
@@ -26,8 +26,9 @@ def crear():
                 repeticiones=data.get("repeticiones"),
                 resistencia_fuerzaG=data.get("resistencia_fuerzaG"),
                 peso=data.get("peso"),
-                persona_id=data.get("persona_id"),
+                user_id=data.get("user_id"),
             )
+            
             recipe.save()
             test_schema = testSchema()
             data = test_schema.dump(recipe)
@@ -82,7 +83,7 @@ def update(id):
             recipe.repeticiones = data.get("repeticiones")
             recipe.resistencia_fuerzaG = data.get("resistencia_fuerzaG")
             recipe.peso = data.get("peso")
-            recipe.persona_id = data.get("persona_id")
+            recipe.user_id = data.get("user_id")
             Test.save(recipe)
             data = test_schema.dump(recipe)
             return jsonify(data)

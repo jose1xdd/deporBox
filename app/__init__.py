@@ -1,9 +1,9 @@
 from flask import Flask, jsonify
 from app.db import db
 from app.jwt import jwt
-from app.controllers.persona import persona_bp
 from app.controllers.user import user_bp
 from app.controllers.binariosUsuario import binariosUsuario_bp
+from app.controllers.Test import test_bp
 from app.common.error_handling import ObjectNotFound, AppErrorBaseClass
 from flask_migrate import Migrate
 from flask_cors import CORS
@@ -13,9 +13,9 @@ def create_app(settings="config.default"):
     db.init_app(app)
     jwt.init_app(app)
     app.url_map.strict_slashes = False
-    app.register_blueprint(persona_bp)
     app.register_blueprint(binariosUsuario_bp)
     app.register_blueprint(user_bp)
+    app.register_blueprint(test_bp)
     register_error_handlers(app)
     migrate = Migrate(app, db)
     cors = CORS(app)
