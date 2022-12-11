@@ -4,6 +4,7 @@ from app.ext import ma
 
 class userSchema(ma.Schema):
     id = fields.Integer(dump_only=True)
+    cedula =fields.String()
     email = fields.String()
     password = fields.String()
     admin = fields.Boolean()

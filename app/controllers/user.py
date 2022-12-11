@@ -21,6 +21,7 @@ def signup_user():
         hashed_password = generate_password_hash(data["password"], method="sha256")
         new_user = User(
             email=data.get("email"),
+            cedula=data.get("cedula"),
             password=hashed_password,
             admin=data.get("admin"),
             type_doc=data.get("type_doc"),
@@ -117,6 +118,7 @@ def update(id):
             hashed_password = generate_password_hash(data["password"], method="sha256")
             recipe.password = hashed_password
             recipe.email = data.get("email")
+            recipe.cedula=data.get("cedula")
             recipe.admin = data.get("admin")
             recipe.type_doc = data.get("type_doc")
             recipe.nombre = data.get("nombre")

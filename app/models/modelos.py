@@ -2,14 +2,15 @@ from app.db import db, crud
 
 
 class User(db.Model, crud):
-    id = db.Column(db.Integer,primary_key=True,autoincrement=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    cedula = db.Column(db.String(40), nullable=False, unique=True)
     email = db.Column(db.String(40), nullable=False, unique=True)
     password = db.Column(db.Text, nullable=False)
     admin = db.Column(db.Boolean, nullable=False)
     type_doc = db.Column(db.Text, nullable=False)
     nombre = db.Column(db.String(80), nullable=False)
     fecha_nacimiento = db.Column(db.DateTime, nullable=False)
-    sexo = db.Column(db.String(10), nullable=False)
+    sexo = db.Column(db.String(1), nullable=False)
     direccion = db.Column(db.String(30), nullable=False)
     tests = db.relationship("Test", backref="user", lazy=True)
     binario = db.relationship(
