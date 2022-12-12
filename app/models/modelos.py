@@ -21,7 +21,7 @@ class User(db.Model, crud):
 class Test(db.Model, crud):
     id = db.Column(db.Integer(), primary_key=True, nullable=False, autoincrement=True)
     trimestre = db.Column(db.Text, nullable=False)
-    fecha = db.Column(db.Date, nullable=False, unique=True)
+    fecha = db.Column(db.Date, nullable=False)
     fuerza_general = db.Column(db.Integer, nullable=False)
     brazos = db.Column(db.Integer, nullable=False)
     piernas = db.Column(db.Integer, nullable=False)
