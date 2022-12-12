@@ -27,7 +27,6 @@ class testSchema(ma.Schema):
     abdomen = fields.Integer()
     resistencia_fuerza = fields.Integer()
     resistencia_vueltas = fields.Integer()
-    repeticiones = fields.Integer()
     resistencia_fuerzaG = fields.Integer()
     peso = fields.Integer()
     user_id = fields.Integer()

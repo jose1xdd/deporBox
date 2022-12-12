@@ -28,7 +28,6 @@ class Test(db.Model, crud):
     abdomen = db.Column(db.Integer, nullable=False)
     resistencia_fuerza = db.Column(db.Integer, nullable=False)
     resistencia_vueltas = db.Column(db.Integer, nullable=False)
-    repeticiones = db.Column(db.Integer, nullable=False)
     resistencia_fuerzaG = db.Column(db.Integer, nullable=False)
     peso = db.Column(db.Integer, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)

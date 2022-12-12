@@ -24,7 +24,6 @@ def crear():
                 abdomen=data.get("abdomen"),
                 resistencia_fuerza=data.get("resistencia_fuerza"),
                 resistencia_vueltas=data.get("resistencia_vueltas"),
-                repeticiones=data.get("repeticiones"),
                 resistencia_fuerzaG=data.get("resistencia_fuerzaG"),
                 peso=data.get("peso"),
                 user_id=data.get("user_id"),
@@ -82,7 +81,6 @@ def update(id):
             recipe.abdomen = data.get("abdomen")
             recipe.resistencia_fuerza = data.get("resistencia_fuerza")
             recipe.resistencia_vueltas = data.get("resistencia_vueltas")
-            recipe.repeticiones = data.get("repeticiones")
             recipe.resistencia_fuerzaG = data.get("resistencia_fuerzaG")
             recipe.peso = data.get("peso")
             recipe.user_id = data.get("user_id")
