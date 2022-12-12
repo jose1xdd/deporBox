@@ -19,6 +19,7 @@ def crear():
                 trimestre=data.get("trimestre"),
                 fuerza_general=data.get("fuerza_general"),
                 brazos=data.get("brazos"),
+                fecha=data.get("fecha"),
                 piernas=data.get("piernas"),
                 abdomen=data.get("abdomen"),
                 resistencia_fuerza=data.get("resistencia_fuerza"),
@@ -74,6 +75,7 @@ def update(id):
             test_schema = testSchema()
             recipe.id = data.get("id")
             recipe.trimestre = data.get("trimestre")
+            recipe.fecha=data.get("fecha")
             recipe.fuerza_general = data.get("fuerza_general")
             recipe.brazos = data.get("brazos")
             recipe.piernas = data.get("piernas")

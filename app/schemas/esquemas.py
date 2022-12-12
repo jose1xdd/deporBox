@@ -20,6 +20,7 @@ class userSchema(ma.Schema):
 class testSchema(ma.Schema):
     id = fields.Integer(dump_only=True)
     trimestre = fields.String()
+    fecha = fields.DateTime()
     fuerza_general = fields.Integer()
     brazos = fields.Integer()
     piernas = fields.Integer()
