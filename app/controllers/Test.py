@@ -72,7 +72,6 @@ def update(id):
             recipe = Test.get_by_id(id)
             data = request.json
             test_schema = testSchema()
-            recipe.id = data.get("id")
             recipe.trimestre = data.get("trimestre")
             recipe.fecha=data.get("fecha")
             recipe.fuerza_general = data.get("fuerza_general")
@@ -83,7 +82,6 @@ def update(id):
             recipe.resistencia_vueltas = data.get("resistencia_vueltas")
             recipe.resistencia_fuerzaG = data.get("resistencia_fuerzaG")
             recipe.peso = data.get("peso")
-            recipe.user_id = data.get("user_id")
             Test.save(recipe)
             data = test_schema.dump(recipe)
             return jsonify(data)
