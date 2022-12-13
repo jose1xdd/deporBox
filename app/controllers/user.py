@@ -89,7 +89,6 @@ def getUsuarioemail(data):
         return jsonify({"mesage": str(ex)}), 500
 
 
-
 @user_bp.route("/usuario/<string:id>", methods=["DELETE"])
 @jwt_required()
 def delete(id):
@@ -115,16 +114,34 @@ def update(id):
         if auth(user):
             data = request.get_json()
             recipe = User.get_by_id(id)
-            hashed_password = generate_password_hash(data["password"], method="sha256")
-            recipe.password = hashed_password
             recipe.email = data.get("email")
-            recipe.cedula=data.get("cedula")
+            recipe.cedula = data.get("cedula")
             recipe.admin = data.get("admin")
             recipe.type_doc = data.get("type_doc")
             recipe.nombre = data.get("nombre")
             recipe.fecha_nacimiento = data.get("fecha_nacimiento")
             recipe.sexo = data.get("sexo")
             recipe.direccion = data.get("direccion")
+            User.save(recipe)
+            usuarioschema = userSchema()
+            data = usuarioschema.dump(recipe)
+            return jsonify(data)
+        else:
+            return jsonify({"message": "usuario no es admin"}), 401
+    except Exception as ex:
+        return jsonify({"mesage": str(ex)}), 500
+
+
+@user_bp.route("/usuario/<string:id>/password", methods=["PUT"])
+@jwt_required()
+def updatePassword(id):
+    try:
+        user = get_current_user()
+        if auth(user):
+            data = request.get_json()
+            recipe = User.get_by_id(id)
+            hashed_password = generate_password_hash(data["password"], method="sha256")
+            recipe.password = hashed_password
             User.save(recipe)
             usuarioschema = userSchema()
             data = usuarioschema.dump(recipe)
